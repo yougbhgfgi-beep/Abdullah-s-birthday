@@ -126,17 +126,19 @@ export default function OutroSection() {
             ))}
           </div>
 
-          <div className={`relative z-10 max-w-lg w-full px-6 text-center ${!done ? 'animate-outro' : ''}`}>
+          <div className="relative z-10 max-w-lg w-full max-h-[80vh] px-6 text-center overflow-y-auto"
+            style={{ scrollbarWidth: 'none' }}>
             <div className="text-6xl mb-6 animate-heartbeat">💖</div>
-            <div className="space-y-3">
+            <div className="space-y-3 animate-fade-in-up">
               {OUTRO_LINES.map((line, i) => (
                 line === '' ? (
                   <div key={i} className="h-4" />
                 ) : (
-                  <p key={i} className="text-pink-200 font-semibold leading-relaxed"
+                  <p key={i} className="text-pink-200 font-semibold leading-relaxed animate-fade-in-up"
                     style={{
                       fontSize: line.includes('✨') || line.includes('💖') ? '1.1rem' : '0.95rem',
                       fontWeight: line.includes('✨') || line.includes('💖') ? 700 : 500,
+                      animationDelay: `${i * 0.15}s`,
                     }}>
                     {line}
                   </p>
