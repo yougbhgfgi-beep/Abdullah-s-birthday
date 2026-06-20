@@ -21,9 +21,8 @@ export default function EnvelopeModal({ onClose }: Props) {
         {!opened ? (
           /* ENVELOPE CLOSED */
           <div className="text-center">
-            <p className="text-pink-600 font-bold text-xl mb-8 animate-float-bounce">
-              ✉️ رسالة خاصة لك... اضغط لفتحها 💌
-            </p>
+            <p className="text-pink-600 font-bold text-xl mb-1">رسالة خاصة لك 💌</p>
+            <p className="text-pink-400 text-sm mb-6">اضغط على الزر لتكتشف ما بداخله</p>
             <button onClick={() => setOpened(true)}
               className="relative mx-auto block cursor-pointer group transition-transform hover:scale-105">
               {/* Envelope body */}

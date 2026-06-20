@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { X, Heart } from 'lucide-react';
+import { useState, useEffect, useMemo } from 'react';
+import { X, Heart, Sparkles } from 'lucide-react';
 
 const OUTRO_LINES = [
   'يا عبد الله... أنت أجمل هدية منحتها الحياة لمن يحبّك.',
@@ -17,30 +17,62 @@ const OUTRO_LINES = [
   '💖 مع كل الحب والتقدير... 💖',
 ];
 
+const FLOATING_HEARTS = [...Array(12)].map((_, i) => ({
+  left: 5 + Math.random() * 90,
+  delay: i * 0.6,
+  size: 16 + Math.random() * 24,
+  duration: 4 + Math.random() * 4,
+}));
+
 export default function OutroSection() {
   const [playing, setPlaying] = useState(false);
   const [done, setDone] = useState(false);
+  const hearts = useMemo(() => FLOATING_HEARTS, []);
+
+  useEffect(() => {
+    if (playing) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => { document.body.style.overflow = ''; };
+  }, [playing]);
 
   const startOutro = () => {
     setPlaying(true);
     setDone(false);
     setTimeout(() => {
       setDone(true);
-    }, 7500);
+    }, 8000);
   };
 
   return (
     <section className="relative z-10 py-24 px-4 text-center">
       <div className="max-w-xl mx-auto">
         <div className="mb-8">
-          <div className="text-5xl mb-4 animate-float-bounce">🎀</div>
-          <h2 className="text-3xl font-black text-pink-600 mb-3">الخاتمة 🌹</h2>
+          <div className="text-6xl mb-4 animate-float-bounce">🎀</div>
+          <h2 className="text-3xl md:text-4xl font-black text-pink-600 mb-3">الخاتمة 🌹</h2>
           <p className="text-pink-400 text-lg">كلمات أخيرة من القلب إلى القلب</p>
+          <div className="flex items-center justify-center gap-3 mt-5">
+            <div className="h-px w-20 bg-gradient-to-r from-transparent to-pink-300" />
+            <span className="text-pink-400 text-xl">💗</span>
+            <div className="h-px w-20 bg-gradient-to-l from-transparent to-pink-300" />
+          </div>
+        </div>
+
+        {/* Gallery strip */}
+        <div className="flex justify-center gap-2 mb-10 overflow-x-auto px-2">
+          {[1,2,3,4].map(i => (
+            <div key={i} className="w-20 h-20 md:w-24 md:h-24 rounded-2xl overflow-hidden shadow-md flex-shrink-0 border-2 border-pink-200/60">
+              <img src={`${import.meta.env.BASE_URL}gallery/${i}.jpeg`} alt=""
+                className="w-full h-full object-cover" />
+            </div>
+          ))}
         </div>
 
         <button onClick={startOutro} disabled={playing && !done}
-          className="px-12 py-5 rounded-full font-bold text-2xl text-white transition-all duration-300 hover:scale-110 active:scale-95 animate-pulse-glow disabled:opacity-50 disabled:cursor-not-allowed"
-          style={{ background: 'linear-gradient(135deg, #c2185b, #ff1493, #ff69b4)' }}>
+          className="px-12 py-5 rounded-full font-bold text-2xl text-white transition-all duration-300 hover:scale-110 active:scale-95 animate-pulse-glow disabled:opacity-50 disabled:cursor-not-allowed shadow-xl"
+          style={{ background: 'linear-gradient(135deg, #c2185b, #ff1493, #ff69b4)', boxShadow: '0 10px 40px rgba(255,20,147,0.4)' }}>
           <span className="flex items-center gap-3">
             <Heart size={26} className="fill-white" />
             شاهد الخاتمة
@@ -51,7 +83,7 @@ export default function OutroSection() {
         {/* Bottom decoration */}
         <div className="mt-16 flex items-center justify-center gap-4">
           <div className="h-px w-28 bg-gradient-to-r from-transparent to-pink-300" />
-          <span className="text-pink-300 text-2xl">💝</span>
+          <span className="text-pink-300 text-3xl animate-heartbeat">💝</span>
           <div className="h-px w-28 bg-gradient-to-l from-transparent to-pink-300" />
         </div>
         <p className="mt-4 text-pink-300 text-sm">صُنع هذا الموقع بكل المحبة خصيصاً لك يا عبد الله</p>
@@ -63,9 +95,23 @@ export default function OutroSection() {
           style={{ background: 'linear-gradient(135deg, #1a0010, #3d0020, #1a0010)' }}>
 
           <button onClick={() => { setPlaying(false); setDone(false); }}
-            className="absolute top-6 left-6 w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors">
+            className="absolute top-6 left-6 z-20 w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors">
             <X size={20} className="text-white" />
           </button>
+
+          {/* Floating hearts */}
+          <div className="absolute inset-0 overflow-hidden pointer-events-none">
+            {hearts.map((h, i) => (
+              <span key={i} className="absolute animate-float-up opacity-40"
+                style={{
+                  left: `${h.left}%`,
+                  bottom: '-20px',
+                  fontSize: `${h.size}px`,
+                  animationDelay: `${h.delay}s`,
+                  animationDuration: `${h.duration}s`,
+                }}>💕</span>
+            ))}
+          </div>
 
           {/* Stars background */}
           <div className="absolute inset-0 overflow-hidden">
@@ -80,8 +126,8 @@ export default function OutroSection() {
             ))}
           </div>
 
-          <div className={`relative z-10 max-w-lg w-full px-8 text-center ${!done ? 'animate-outro' : ''}`}>
-            <div className="text-6xl mb-8 animate-heartbeat">💖</div>
+          <div className={`relative z-10 max-w-lg w-full px-6 text-center ${!done ? 'animate-outro' : ''}`}>
+            <div className="text-6xl mb-6 animate-heartbeat">💖</div>
             <div className="space-y-3">
               {OUTRO_LINES.map((line, i) => (
                 line === '' ? (
@@ -89,7 +135,7 @@ export default function OutroSection() {
                 ) : (
                   <p key={i} className="text-pink-200 font-semibold leading-relaxed"
                     style={{
-                      fontSize: line.includes('✨') || line.includes('💖') ? '1.1rem' : '1rem',
+                      fontSize: line.includes('✨') || line.includes('💖') ? '1.1rem' : '0.95rem',
                       fontWeight: line.includes('✨') || line.includes('💖') ? 700 : 500,
                     }}>
                     {line}
@@ -99,12 +145,22 @@ export default function OutroSection() {
             </div>
 
             {done && (
-              <div className="mt-10 animate-fade-in-up">
-                <p className="text-white text-3xl font-black shimmer-text">عبد الله 💕</p>
-                <p className="text-pink-300 mt-2">كل عام وأنت بخير</p>
+              <div className="mt-10 animate-fade-in-up space-y-4">
+                <div className="flex justify-center gap-2 text-2xl">
+                  {['🌹','💕','✨','💖','🌹'].map((e, i) => (
+                    <span key={i} className="animate-float-bounce" style={{ animationDelay: `${i * 0.15}s` }}>{e}</span>
+                  ))}
+                </div>
+                <p className="text-white text-3xl md:text-4xl font-black shimmer-text">عبد الله 💕</p>
+                <p className="text-pink-300 text-lg">كل عام وأنت بخير يا أجمل إنسان</p>
+                <div className="flex items-center justify-center gap-2 text-pink-400 text-sm">
+                  <Sparkles size={16} />
+                  <span>دائمًا في قلبي</span>
+                  <Sparkles size={16} />
+                </div>
                 <button onClick={() => { setPlaying(false); setDone(false); }}
-                  className="mt-6 px-8 py-3 rounded-2xl font-bold text-white border-2 border-pink-400 hover:bg-pink-400/20 transition-colors">
-                  إغلاق
+                  className="mt-6 px-10 py-3 rounded-2xl font-bold text-white border-2 border-pink-400 hover:bg-pink-400/20 transition-all duration-300 hover:scale-105">
+                  إغلاق 💗
                 </button>
               </div>
             )}
