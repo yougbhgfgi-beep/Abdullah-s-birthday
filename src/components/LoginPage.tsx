@@ -13,7 +13,7 @@ export default function LoginPage({ onLogin }: Props) {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (password === 'love') {
+    if (password === 'toti' || password === 'love') {
       setLoading(true);
       setTimeout(() => onLogin(), 800);
     } else {
