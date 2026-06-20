@@ -1,4 +1,4 @@
-import { useState, useRef, useCallback } from 'react';
+import { useState, useRef, useCallback, useEffect } from 'react';
 
 import { Volume2, VolumeX } from 'lucide-react';
 import FloatingBackground from './components/FloatingBackground';
@@ -64,9 +64,16 @@ export default function App() {
     return <LoginPage onLogin={handleLogin} />;
   }
 
+  useEffect(() => {
+    document.body.style.overflow = '';
+  }, []);
+
   return (
-    <div className="relative min-h-screen overflow-x-hidden"
-      style={{ background: 'linear-gradient(180deg, #fff0f5 0%, #ffe4f0 30%, #fff0f5 60%, #ffd6e8 100%)' }}>
+    <div className="relative min-h-screen"
+      style={{
+        overflowX: 'clip',
+        background: 'linear-gradient(180deg, #fff0f5 0%, #ffe4f0 30%, #fff0f5 60%, #ffd6e8 100%)',
+      }}>
 
       <FloatingBackground />
 
