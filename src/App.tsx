@@ -60,13 +60,13 @@ export default function App() {
     }
   }, []);
 
-  if (stage === 'login') {
-    return <LoginPage onLogin={handleLogin} />;
-  }
-
   useEffect(() => {
     document.body.style.overflow = '';
   }, []);
+
+  if (stage === 'login') {
+    return <LoginPage onLogin={handleLogin} />;
+  }
 
   return (
     <div className="relative min-h-screen"
