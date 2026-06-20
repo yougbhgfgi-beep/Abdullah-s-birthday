@@ -13,7 +13,7 @@ interface Particle {
 
 export default function FloatingBackground() {
   const particles = useMemo<Particle[]>(() => {
-    return Array.from({ length: 14 }, (_, i) => ({
+    return Array.from({ length: 8 }, (_, i) => ({
       id: i,
       emoji: EMOJIS[i % EMOJIS.length],
       left: Math.random() * 100,

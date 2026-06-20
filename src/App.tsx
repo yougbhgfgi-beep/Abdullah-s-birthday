@@ -71,7 +71,6 @@ export default function App() {
   return (
     <div className="relative min-h-screen"
       style={{
-        overflowX: 'clip',
         background: 'linear-gradient(180deg, #fff0f5 0%, #ffe4f0 30%, #fff0f5 60%, #ffd6e8 100%)',
       }}>
 

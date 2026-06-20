@@ -6,9 +6,14 @@
   font-family: 'Cairo', 'Tajawal', sans-serif;
 }
 
+html {
+  overflow-x: hidden;
+}
+
 body {
   background: #fff0f5;
   direction: rtl;
+  overflow-x: hidden;
 }
 
 @keyframes floatUp {
@@ -107,7 +112,7 @@ body {
   transform-origin: bottom center;
 }
 
-.animate-float-up { animation: floatUp linear infinite; will-change: transform; }
+.animate-float-up { animation: floatUp linear infinite; }
 .animate-sway { animation: sway ease-in-out infinite; will-change: transform; }
 .animate-shimmer { animation: shimmer 3s linear infinite; }
 .animate-fade-in-up { animation: fadeInUp 0.7s ease forwards; will-change: transform, opacity; }
