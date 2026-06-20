@@ -1,0 +1,14 @@
+node_modules
+dist
+OIP*
+download*
+gallery*.webp
+WhatsApp*
+temp_audio*
+test_audio
+178195*
+index-*.js
+index-*.css
+.gitkeep
+*.jpg
+*.jpeg
